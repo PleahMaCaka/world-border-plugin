@@ -1,5 +1,6 @@
 package io.github.pleahmacaka.example.kommands
 
+import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import io.github.pleahmacaka.example.GameStatus
 import io.github.pleahmacaka.example.items.ExpandBorderItem
@@ -13,6 +14,7 @@ var isReady: Boolean = false
 fun gameKommand(plugin: JavaPlugin) {
     plugin.kommand {
         register("game") {
+            requires { player.isOp }
             then("start") {
                 executes {
                     if (!isReady) {
@@ -71,6 +73,15 @@ fun gameKommand(plugin: JavaPlugin) {
             then("give")
             {
                 then("expander") {
+                    then("count" to int()) {
+                        executes {
+                            val count: Int by it
+                            for (i in 1..count)
+                                player.inventory.addItem(ExpandBorderItem.itemStack)
+                            player.sendMessage("월드 경계 확장기를 ${count}개 지급합니다.")
+                            return@executes
+                        }
+                    }
                     executes {
                         player.inventory.addItem(ExpandBorderItem.itemStack)
                         player.sendMessage("월드 경계 확장기를 지급합니다.")

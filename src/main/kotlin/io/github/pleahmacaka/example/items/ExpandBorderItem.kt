@@ -12,14 +12,15 @@ import org.bukkit.inventory.ItemStack
 
 object ExpandBorderItem : Listener {
 
-    val itemStack = ItemStack(Material.BARRIER).apply {
-        itemMeta.apply {
+    val itemStack = ItemStack(Material.GOAT_HORN).apply {
+        itemMeta = itemMeta.apply {
             displayName(Component.text("월드 경계 확장기"))
             lore(
                 mutableListOf(
                     Component.text("월드 경계를 확장합니다.")
                         .decoration(TextDecoration.ITALIC, false)
                         .color(TextColor.color(0x00FF00)),
+                    Component.text(" "),
                     Component.text("오버월드: 4칸")
                         .decoration(TextDecoration.ITALIC, false)
                         .color(TextColor.color(0xFF8100)),
@@ -28,12 +29,15 @@ object ExpandBorderItem : Listener {
                         .color(TextColor.color(0xAC2020)),
                     Component.text("엔더월드: 16칸")
                         .decoration(TextDecoration.ITALIC, false)
-                        .color(TextColor.color(0x17191A)),
+                        .color(TextColor.color(0xA9A3A3)),
                 )
             )
         }
     }
 
+    /**
+     * Not consider stacked items
+     */
     @EventHandler
     fun onUse(event: PlayerInteractEvent) {
         val player = event.player

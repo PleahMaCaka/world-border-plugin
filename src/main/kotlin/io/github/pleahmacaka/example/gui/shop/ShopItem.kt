@@ -4,12 +4,20 @@ import org.bukkit.Material
 
 @Suppress("unused")
 data class ShopItem(
-    val page: Int,
-    val material: Material,
+    val page: Int,              // page numbers
+    val material: Material,     // display material
+    val name: String? = null,   // display name, null for default
 
-    val name: String? = null, // will be used as display name
-    var needs: Int,           // 가져올 아이템 수
-    var amount: Int,           // 받는 확장권 수
+    var needs: Int,             // require items for exchange
+    var amount: Int,            // get amount of expander
 
-    var loc: Int? = null      // 인벤에서의 인덱스
+    /**
+     * Allowed tags for exchange, null for only material
+     */
+    val allowList: MutableList<Material>? = null,
+
+    /**
+     * constant index location for exchange slot
+     */
+    var loc: Int? = null
 )
