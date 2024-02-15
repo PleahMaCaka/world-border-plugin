@@ -2,6 +2,7 @@ package io.github.pleahmacaka.example.kommands
 
 import io.github.monun.kommand.kommand
 import io.github.pleahmacaka.example.GameStatus
+import io.github.pleahmacaka.example.items.ExpandBorderItem
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
@@ -15,7 +16,7 @@ fun gameKommand(plugin: JavaPlugin) {
             then("start") {
                 executes {
                     if (!isReady) {
-                        sender.sendMessage("현재 지점을 시작점으로 설정하게 됩니다. 게임을 시작하시려면 다시 한번 명령어를 사용하세요.")
+                        player.sendMessage("현재 지점을 시작점으로 설정하게 됩니다. 게임을 시작하시려면 다시 한번 명령어를 사용하세요.")
                         isReady = true
                     } else {
                         GameStatus.setName("게임 시작을 위해 준비하고 있습니다...")
@@ -56,24 +57,34 @@ fun gameKommand(plugin: JavaPlugin) {
                 then("show") {
                     executes {
                         GameStatus.showAll()
-                        sender.sendMessage("게임 바를 표시합니다.")
+                        player.sendMessage("게임 바를 표시합니다.")
                     }
                 }
                 then("hide") {
                     executes {
                         GameStatus.hideAll()
-                        sender.sendMessage("게임 바를 숨깁니다.")
+                        player.sendMessage("게임 바를 숨깁니다.")
                     }
                 }
-                executes { sender.sendMessage("/game bar <show | hide>") }
+                executes { player.sendMessage("/game bar <show | hide>") }
+            }
+            then("give")
+            {
+                then("expander") {
+                    executes {
+                        player.inventory.addItem(ExpandBorderItem.itemStack)
+                        player.sendMessage("월드 경계 확장기를 지급합니다.")
+                    }
+                }
+                executes { player.sendMessage("/game give <expander>") }
             }
             then("clean") {
                 executes {
-                    sender.sendMessage("플러그인 정보를 청소합니다. 설정된 구성을 초기화 하지 않습니다.")
+                    player.sendMessage("플러그인 정보를 청소합니다. 설정된 구성을 초기화 하지 않습니다.")
                 }
             }
             executes {
-                sender.sendMessage("/game <start | bar | clean>")
+                player.sendMessage("/game <start | bar | clean>")
             }
         }
     }

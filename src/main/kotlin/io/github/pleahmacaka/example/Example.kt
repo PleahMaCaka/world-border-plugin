@@ -1,6 +1,7 @@
 package io.github.pleahmacaka.example
 
 import io.github.pleahmacaka.example.gui.shop.ShopGui
+import io.github.pleahmacaka.example.items.ExpandBorderItem
 import io.github.pleahmacaka.example.kommands.gameKommand
 import io.github.pleahmacaka.example.kommands.shopKommand
 import net.kyori.adventure.text.Component
@@ -37,6 +38,7 @@ class Example : JavaPlugin() {
 
     private fun registerListeners() {
         server.pluginManager.registerEvents(ShopGui, this)
+        server.pluginManager.registerEvents(ExpandBorderItem, this)
     }
 
 }
