@@ -25,7 +25,7 @@ object ShopGui : Listener {
         /**
          * Page 1
          */
-        ShopItem(1, Material.OAK_LOG, "원목", 32, 1),
+        ShopItem(1, Material.OAK_LOG, "원목", 128, 1),
         ShopItem(1, Material.COAL, null, 64, 1),
         ShopItem(1, Material.IRON_INGOT, null, 32, 1),
         ShopItem(1, Material.GOLD_INGOT, null, 32, 1),
@@ -37,8 +37,13 @@ object ShopGui : Listener {
 
         ShopItem(1, Material.NETHERITE_INGOT, null, 2, 1),
         ShopItem(1, Material.QUARTZ, null, 128, 1),
-        ShopItem(1, Material.GLOWSTONE_DUST, null, 512, 1),
+        ShopItem(1, Material.GLOWSTONE, null, 128, 1),
         ShopItem(1, Material.PRISMARINE_SHARD, null, 32, 1),
+
+        ShopItem(1, Material.COBBLESTONE, null, 777, 1),
+        ShopItem(1, Material.CLAY, null, 96, 1),
+        ShopItem(1, Material.APPLE, null, 64, 1),
+        ShopItem(1, Material.ROTTEN_FLESH, null, 128, 1),
 
         /**
          * Page 2
