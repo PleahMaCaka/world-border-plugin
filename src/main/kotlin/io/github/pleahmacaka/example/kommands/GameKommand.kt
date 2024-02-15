@@ -4,6 +4,7 @@ import io.github.monun.kommand.kommand
 import io.github.pleahmacaka.example.GameStatus
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 var isReady: Boolean = false
@@ -22,13 +23,30 @@ fun gameKommand(plugin: JavaPlugin) {
 
                         val world = player.world
 
+                        // set default world spawn location
                         world.spawnLocation = world.getHighestBlockAt(player.location).location
+
+                        // initialize a world border
                         world.worldBorder.center = world.spawnLocation
                         world.worldBorder.size = GameStatus.borderSize.toDouble()
-                        // ... do something take a long time
+
+                        // place stronghold
+//                        Bukkit.getServer().structureManager.createStructure().place(
+//                            world.getHighestBlockAt(player.location).location,
+//                            true,
+//                            StructureRotation.NONE,
+//                            Mirror.NONE,
+//                            -1,
+//                            Random().nextFloat(),
+//                            Random()
+//                        )
+                        player.sendMessage("StrongHold 생성됨.")
+                        Bukkit.dispatchCommand(player, "place structure minecraft:stronghold ~ 12 ~") // uwu
+
+                        // ... do something take a long time ... //
 
                         GameStatus.setName("현재 월드보더 크기 : ${GameStatus.borderSize}")
-                        sender.sendMessage(
+                        player.sendMessage(
                             Component.text("현재 지점 [0, 0, 0] 을 기준으로 게임을 시작합니다.").color(TextColor.color(0x00FF00))
                         )
                     }
