@@ -19,7 +19,6 @@ class Example : JavaPlugin() {
         instance = this
         logger.info("Example Plugin Enabled!")
 
-        GameStatus.removeAll()
         GameStatus.bar.name(Component.text("애플의 월드보더 서바이벌 V0 작동중"))
         GameStatus.showAll()
         registerKommands()
@@ -27,6 +26,7 @@ class Example : JavaPlugin() {
     }
 
     override fun onDisable() {
+        GameStatus.hideAll() // 한번 인스턴스를 잃어버리면 다시 핸들링 불가능함
         logger.info("Example Plugin Disabled!")
     }
 

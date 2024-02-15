@@ -8,9 +8,16 @@ import org.bukkit.Bukkit
 
 object GameStatus {
 
-    val bar = BossBar.bossBar(
+    var started = false
+    var borderSize = 8
+
+    var bar = BossBar.bossBar(
         Component.text("대기중"), 1.0f, BossBar.Color.BLUE, Overlay.PROGRESS
     )
+
+    fun setName(name: String) {
+        bar.name(Component.text(name))
+    }
 
     fun showAll() {
         (Bukkit.getOnlinePlayers() as MutableList<*>).forEach { player ->
@@ -18,7 +25,7 @@ object GameStatus {
         }
     }
 
-    fun removeAll() {
+    fun hideAll() {
         (Bukkit.getOnlinePlayers() as MutableList<*>).forEach { player ->
             bar.removeViewer(player as Audience)
         }

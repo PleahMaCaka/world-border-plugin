@@ -6,32 +6,56 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.plugin.java.JavaPlugin
 
-var realStart: Boolean = false
+var isReady: Boolean = false
 
 fun gameKommand(plugin: JavaPlugin) {
     plugin.kommand {
         register("game") {
             then("start") {
                 executes {
-                    if (!realStart) {
+                    if (!isReady) {
                         sender.sendMessage("현재 지점을 시작점으로 설정하게 됩니다. 게임을 시작하시려면 다시 한번 명령어를 사용하세요.")
-                        realStart = true
-                        GameStatus.bar.name(Component.text("게임 시작을 위해 준비하고 있습니다..."))
+                        isReady = true
                     } else {
+                        GameStatus.setName("게임 시작을 위해 준비하고 있습니다...")
+                        GameStatus.started = true
+
+                        val world = player.world
+
+                        world.spawnLocation = world.getHighestBlockAt(player.location).location
+                        world.worldBorder.center = world.spawnLocation
+                        world.worldBorder.size = GameStatus.borderSize.toDouble()
+                        // ... do something take a long time
+
+                        GameStatus.setName("현재 월드보더 크기 : ${GameStatus.borderSize}")
                         sender.sendMessage(
                             Component.text("현재 지점 [0, 0, 0] 을 기준으로 게임을 시작합니다.").color(TextColor.color(0x00FF00))
                         )
                     }
                 }
             }
+            then("bar") {
+                then("show") {
+                    executes {
+                        GameStatus.showAll()
+                        sender.sendMessage("게임 바를 표시합니다.")
+                    }
+                }
+                then("hide") {
+                    executes {
+                        GameStatus.hideAll()
+                        sender.sendMessage("게임 바를 숨깁니다.")
+                    }
+                }
+                executes { sender.sendMessage("/game bar <show | hide>") }
+            }
             then("clean") {
                 executes {
-                    GameStatus.removeAll()
                     sender.sendMessage("플러그인 정보를 청소합니다. 설정된 구성을 초기화 하지 않습니다.")
                 }
             }
             executes {
-                sender.sendMessage("/game <start | clean>")
+                sender.sendMessage("/game <start | bar | clean>")
             }
         }
     }
