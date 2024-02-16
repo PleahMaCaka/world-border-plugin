@@ -33,24 +33,17 @@ fun gameKommand(plugin: JavaPlugin) {
                         world.worldBorder.center = world.spawnLocation
                         world.worldBorder.size = GameStatus.borderSize.toDouble()
 
-                        // place stronghold
-//                        Bukkit.getServer().structureManager.createStructure().place(
-//                            world.getHighestBlockAt(player.location).location,
-//                            true,
-//                            StructureRotation.NONE,
-//                            Mirror.NONE,
-//                            -1,
-//                            Random().nextFloat(),
-//                            Random()
-//                        )
                         player.sendMessage("StrongHold 생성됨.")
                         Bukkit.dispatchCommand(player, "place structure minecraft:stronghold ~ 12 ~") // uwu
 
                         // ... do something take a long time ... //
 
                         GameStatus.setName("현재 월드보더 크기 : ${GameStatus.borderSize}")
+
+                        val ploc = player.location
                         player.sendMessage(
-                            Component.text("현재 지점 [0, 0, 0] 을 기준으로 게임을 시작합니다.").color(TextColor.color(0x00FF00))
+                            Component.text("현재 지점 [${ploc.x}, ${ploc.y}, ${ploc.z}] 을 기준으로 게임을 시작합니다.")
+                                .color(TextColor.color(0x00FF00))
                         )
                     }
                 }
@@ -70,14 +63,12 @@ fun gameKommand(plugin: JavaPlugin) {
                 }
                 executes { player.sendMessage("/game bar <show | hide>") }
             }
-            then("give")
-            {
+            then("give") {
                 then("expander") {
                     then("count" to int()) {
                         executes {
                             val count: Int by it
-                            for (i in 1..count)
-                                player.inventory.addItem(ExpandBorderItem.itemStack)
+                            for (i in 1..count) player.inventory.addItem(ExpandBorderItem.itemStack)
                             player.sendMessage("월드 경계 확장기를 ${count}개 지급합니다.")
                             return@executes
                         }
