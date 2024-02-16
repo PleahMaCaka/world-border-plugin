@@ -7,13 +7,15 @@ import org.bukkit.Material
 @Suppress("unused")
 class ShopItem(
     page: Int,
-    name: Named,
+    name: Named? = null,
     material: Material,
-    lore: Array<Component>,
-    loc: Int,
 
-    var needs: Int,             // Count of require item
-    var amount: Int,            // Amount of expander
+    var needs: Int,    // Count of require item
+    var amount: Int,   // Amount of expander
+
+    lore: Array<Component>? = null,
+    loc: Int? = null,
+
 
     /**
      * Allowed tags for exchange, null for only material

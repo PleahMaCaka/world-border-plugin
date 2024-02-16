@@ -1,6 +1,7 @@
 package io.github.pleahmacaka.example.gui.shop
 
 import io.github.pleahmacaka.example.Example
+import io.github.pleahmacaka.example.utils.Named
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
@@ -25,25 +26,25 @@ object ShopGui : Listener {
         /**
          * Page 1
          */
-        ShopItem(1, Material.OAK_LOG, "원목", 128, 1),
-        ShopItem(1, Material.COAL, null, 64, 1),
-        ShopItem(1, Material.IRON_INGOT, null, 32, 1),
-        ShopItem(1, Material.GOLD_INGOT, null, 32, 1),
+        ShopItem(1, Named.Text("원목"), Material.OAK_LOG, 128, 1),
+        ShopItem(1, null, Material.COAL, 64, 1),
+        ShopItem(1, null, Material.IRON_INGOT, 32, 1),
+        ShopItem(1, null, Material.GOLD_INGOT, 32, 1),
 
-        ShopItem(1, Material.DIAMOND, null, 16, 1),
-        ShopItem(1, Material.EMERALD, null, 16, 1),
-        ShopItem(1, Material.REDSTONE, null, 128, 1),
-        ShopItem(1, Material.LAPIS_LAZULI, null, 128, 1),
+        ShopItem(1, null, Material.DIAMOND, 16, 1),
+        ShopItem(1, null, Material.EMERALD, 16, 1),
+        ShopItem(1, null, Material.REDSTONE, 128, 1),
+        ShopItem(1, null, Material.LAPIS_LAZULI, 128, 1),
 
-        ShopItem(1, Material.NETHERITE_INGOT, null, 2, 1),
-        ShopItem(1, Material.QUARTZ, null, 128, 1),
-        ShopItem(1, Material.GLOWSTONE, null, 128, 1),
-        ShopItem(1, Material.PRISMARINE_SHARD, null, 32, 1),
+        ShopItem(1, null, Material.NETHERITE_INGOT, 2, 1),
+        ShopItem(1, null, Material.QUARTZ, 128, 1),
+        ShopItem(1, null, Material.GLOWSTONE, 128, 1),
+        ShopItem(1, null, Material.PRISMARINE_SHARD, 32, 1),
 
-        ShopItem(1, Material.COBBLESTONE, null, 777, 1),
-        ShopItem(1, Material.CLAY, null, 96, 1),
-        ShopItem(1, Material.APPLE, null, 64, 1),
-        ShopItem(1, Material.ROTTEN_FLESH, null, 128, 1),
+        ShopItem(1, null, Material.COBBLESTONE, 777, 1),
+        ShopItem(1, null, Material.CLAY, 96, 1),
+        ShopItem(1, null, Material.APPLE, 64, 1),
+        ShopItem(1, null, Material.ROTTEN_FLESH, 128, 1),
 
         /**
          * Page 2
@@ -52,7 +53,7 @@ object ShopGui : Listener {
     )
 
     @EventHandler
-    fun clickHandle(event: InventoryClickEvent) {
+    fun onInvClick(event: InventoryClickEvent) {
         if (Example.IS_DEV) Example.instance.logger.info("Prevent click")
         if (event.inventory == inv) event.isCancelled = true
     }
@@ -67,11 +68,9 @@ object ShopGui : Listener {
                 itemMeta = itemMeta.apply {
                     lore(
                         mutableListOf(
-                            Component.text("필요한 수: ${item.needs}")
-                                .color(TextColor.color(0x00FF00))
+                            Component.text("필요한 수: ${item.needs}").color(TextColor.color(0x00FF00))
                                 .decoration(TextDecoration.ITALIC, false),
-                            Component.text("확장권 수: ${item.amount}")
-                                .color(TextColor.color(0x00FFFF))
+                            Component.text("확장권 수: ${item.amount}").color(TextColor.color(0x00FFFF))
                                 .decoration(TextDecoration.ITALIC, false),
                         )
                     )
