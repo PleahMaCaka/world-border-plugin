@@ -60,8 +60,13 @@ object ShopGui : Listener {
 
     val inv: Inventory = Bukkit.createInventory(null, SIZEOF, Component.text("상점"))
 
+//    private var page = 1
+
     init {
+        var passed = 0
+
         for (i in items.indices) {
+            if (passed == ITEMS_ON.size) break
             val item = items[i]
             val slot = ITEMS_ON[i]
             val itemStack = ItemStack(item.material).apply {
@@ -77,6 +82,7 @@ object ShopGui : Listener {
                 }
             }
             inv.setItem(slot, itemStack)
+            passed++
         }
 
         for (i in 0 until SIZEOF) {
@@ -86,5 +92,13 @@ object ShopGui : Listener {
             if (inv.getItem(i) == null) inv.setItem(i, emptyItem)
         }
     }
+
+//    /**
+//     * @unused
+//     * Remove items by index in ITEMS_ON for new/next/prev page ...etc.
+//     */
+//    fun cleanIt() {
+//        for (i in ITEMS_ON) inv.setItem(i, ItemStack(Material.AIR))
+//    }
 
 }
