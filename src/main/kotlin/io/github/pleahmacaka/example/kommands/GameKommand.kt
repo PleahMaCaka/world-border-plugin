@@ -9,7 +9,6 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import kotlin.math.abs
 
 var isReady: Boolean = false
 
@@ -44,7 +43,7 @@ fun gameKommand(plugin: JavaPlugin) {
 
                         val ploc = player.location
                         player.sendMessage(
-                            Component.text("현재 지점 [${abs(ploc.x)}, ${abs(ploc.y)}, ${abs(ploc.z)}] 을 기준으로 게임을 시작합니다.")
+                            Component.text("현재 지점 [${ploc.x.toInt()}, ${ploc.y.toInt()}, ${ploc.z.toInt()}] 을 기준으로 게임을 시작합니다.")
                                 .color(TextColor.color(0x00FF00))
                         )
                     }
