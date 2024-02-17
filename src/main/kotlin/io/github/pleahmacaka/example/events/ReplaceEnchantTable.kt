@@ -11,7 +11,9 @@ object ReplaceEnchantTable : Listener {
     // if that block is enchant table, close it to open ReinforceGui.inv
     @EventHandler
     fun openReinforce(event: PlayerInteractEvent) {
-        if (event.clickedBlock?.type == Material.ENCHANTING_TABLE) {
+        if (event.clickedBlock?.type == Material.ENCHANTING_TABLE
+            && event.action.isRightClick
+        ) {
             event.isCancelled = true
             event.player.openInventory(ReinforceGui.inv)
         }
