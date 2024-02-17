@@ -83,6 +83,12 @@ fun gameKommand(plugin: JavaPlugin) {
             }
             then("config") {
                 then("reward") {
+                    then("load") {
+                        executes {
+                            RewardGui.loadReward()
+                            player.sendMessage("게임 보상을 불러왔습니다.")
+                        }
+                    }
                     executes {
                         player.openInventory(RewardGui.inv)
                         player.sendMessage("게임 보상 설정을 엽니다.")
@@ -90,11 +96,6 @@ fun gameKommand(plugin: JavaPlugin) {
                 }
                 executes {
                     player.sendMessage("/game config <reward>")
-                }
-            }
-            then("clean") {
-                executes {
-                    player.sendMessage("플러그인 정보를 청소합니다. 설정된 구성을 초기화 하지 않습니다.")
                 }
             }
             executes {

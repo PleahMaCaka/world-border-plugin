@@ -1,6 +1,8 @@
 package io.github.pleahmacaka.example
 
+import io.github.pleahmacaka.example.events.AutoSaveRewards
 import io.github.pleahmacaka.example.events.ReplaceEnchantTable
+import io.github.pleahmacaka.example.gui.RewardGui
 import io.github.pleahmacaka.example.gui.shop.ShopGui
 import io.github.pleahmacaka.example.items.ExpandBorderItem
 import io.github.pleahmacaka.example.kommands.cleanKommand
@@ -24,12 +26,16 @@ class Example : JavaPlugin() {
 
         GameStatus.bar.name(Component.text("애플의 월드보더 서바이벌 V0 작동중"))
         GameStatus.showAll()
+
+        RewardGui.loadReward()
+
         registerKommands()
         registerListeners()
     }
 
     override fun onDisable() {
         GameStatus.hideAll() // 한번 인스턴스를 잃어버리면 다시 핸들링 불가능함
+        RewardGui.saveReward()
         logger.info("Example Plugin Disabled!")
     }
 
@@ -43,7 +49,8 @@ class Example : JavaPlugin() {
         listOf(
             ShopGui,
             ExpandBorderItem,
-            ReplaceEnchantTable
+            ReplaceEnchantTable,
+            AutoSaveRewards
         ).forEach {
             server.pluginManager.registerEvents(it, this)
         }
