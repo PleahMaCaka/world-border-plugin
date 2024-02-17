@@ -67,8 +67,8 @@ object ShopGui : Listener {
 
     @EventHandler
     fun onInvClick(event: InventoryClickEvent) {
-        if (Example.IS_DEV) Example.instance.logger.info("Prevent click")
         if (event.inventory == inv) event.isCancelled = true
+        if (Example.IS_DEV) Example.instance.logger.info("Prevent click")
     }
 
     val inv: Inventory = Bukkit.createInventory(null, SIZEOF, Component.text("상점"))
