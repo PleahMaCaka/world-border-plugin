@@ -1,5 +1,6 @@
 package io.github.pleahmacaka.example.items
 
+import io.github.pleahmacaka.example.gui.RewardGui
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
@@ -49,6 +50,8 @@ object ExpandBorderItem : Listener {
     fun onUse(event: PlayerInteractEvent) {
         val player = event.player
         val item = event.item
+
+        // Expand the world border
         if (item == itemStack) {
             val world = player.world
             val worldType = world.environment
@@ -66,6 +69,14 @@ object ExpandBorderItem : Listener {
             )
             item.amount -= 1
         }
+
+        // Give the one random reward
+        val random = (0..RewardGui.getRewardSize()).random() - 1
+        if (RewardGui.inv.contents.isEmpty())
+            return player.sendMessage("청크 확장권의 보상이 설정되어 있지 않습니다. 관리자에게 문의하세요.")
+
+        player.sendMessage(random.toString())
+        player.inventory.addItem(RewardGui.inv.contents[random]!!)
     }
 
     @EventHandler

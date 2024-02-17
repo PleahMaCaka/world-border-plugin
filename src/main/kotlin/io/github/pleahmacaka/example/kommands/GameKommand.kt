@@ -3,6 +3,7 @@ package io.github.pleahmacaka.example.kommands
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import io.github.pleahmacaka.example.GameStatus
+import io.github.pleahmacaka.example.gui.RewardGui
 import io.github.pleahmacaka.example.items.ExpandBorderItem
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -80,6 +81,17 @@ fun gameKommand(plugin: JavaPlugin) {
                     }
                 }
                 executes { player.sendMessage("/game give <expander>") }
+            }
+            then("config") {
+                then("reward") {
+                    executes {
+                        player.openInventory(RewardGui.inv)
+                        player.sendMessage("게임 보상 설정을 엽니다.")
+                    }
+                }
+                executes {
+                    player.sendMessage("/game config <reward>")
+                }
             }
             then("clean") {
                 executes {
