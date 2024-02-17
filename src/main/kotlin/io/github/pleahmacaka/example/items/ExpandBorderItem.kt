@@ -51,29 +51,34 @@ object ExpandBorderItem : Listener {
         val player = event.player
         val item = event.item
 
+        if (item != itemStack) return
+
         // Expand the world border
-        if (item == itemStack) {
-            val world = player.world
-            val worldType = world.environment
-            val worldBorder = world.worldBorder
-            val size = worldBorder.size
-            val newSize = when (worldType) {
-                World.Environment.NORMAL -> size + 4
-                World.Environment.NETHER -> size + 8
-                World.Environment.THE_END -> size + 16
-                else -> size
+        val world = player.world
+        val worldType = world.environment
+        val worldBorder = world.worldBorder
+        val size = worldBorder.size
+        worldBorder.size = when (worldType) {
+            World.Environment.NORMAL -> size + 4
+            World.Environment.NETHER -> size + 8
+            World.Environment.THE_END -> size + 16
+            else -> {
+                player.sendMessage("이 월드는 확장할 수 없습니다. 관리자에게 문의하세요.")
+                size
             }
-            worldBorder.size = newSize
-            player.sendMessage(
-                Component.text("월드 경계를 확장했습니다.").color(TextColor.color(0x00FF00))
-            )
-            item.amount -= 1
         }
+
+        player.sendMessage(
+            Component.text("월드 경계를 확장했습니다.").color(TextColor.color(0x00FF00))
+        )
+
+        // Remove expander
+        item.amount -= 1
 
         // Give the one random reward
         val random = (0..RewardGui.getRewardSize()).random() - 1
-        if (RewardGui.inv.contents.isEmpty())
-            return player.sendMessage("청크 확장권의 보상이 설정되어 있지 않습니다. 관리자에게 문의하세요.")
+
+        if (random < 0) return player.sendMessage("청크 확장권의 보상이 설정되어 있지 않습니다. 관리자에게 문의하세요.")
 
         player.sendMessage(random.toString())
         player.inventory.addItem(RewardGui.inv.contents[random]!!)
