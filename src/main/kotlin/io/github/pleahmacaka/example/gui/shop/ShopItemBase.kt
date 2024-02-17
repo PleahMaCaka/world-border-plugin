@@ -3,6 +3,7 @@ package io.github.pleahmacaka.example.gui.shop
 import io.github.pleahmacaka.example.utils.Named
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.event.Listener
 
 open class ShopItemBase(
     val page: Int, // Page number, -1 for pin it
@@ -20,7 +21,7 @@ open class ShopItemBase(
      * constant index location for exchange slot
      */
     var loc: Int? = null
-) {
+) : Listener {
     private var displayName: Component? = null
 
     init {
