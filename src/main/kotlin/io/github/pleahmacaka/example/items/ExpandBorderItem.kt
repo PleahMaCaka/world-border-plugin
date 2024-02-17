@@ -12,23 +12,30 @@ import org.bukkit.inventory.ItemStack
 
 object ExpandBorderItem : Listener {
 
+    var multiplier = 1
+
+    private val over: Int
+        get() = 2 * multiplier
+
+    private val nether: Int
+        get() = 4 * multiplier
+
+    private val end: Int
+        get() = 6 * multiplier
+
     val itemStack = ItemStack(Material.GOAT_HORN).apply {
         itemMeta = itemMeta.apply {
             displayName(Component.text("월드 경계 확장기"))
             lore(
                 mutableListOf(
-                    Component.text("월드 경계를 확장합니다.")
-                        .decoration(TextDecoration.ITALIC, false)
+                    Component.text("월드 경계를 확장합니다.").decoration(TextDecoration.ITALIC, false)
                         .color(TextColor.color(0x00FF00)),
                     Component.text(" "),
-                    Component.text("오버월드: 4칸")
-                        .decoration(TextDecoration.ITALIC, false)
+                    Component.text("오버월드: ${over}칸").decoration(TextDecoration.ITALIC, false)
                         .color(TextColor.color(0xFF8100)),
-                    Component.text("네더월드: 8칸")
-                        .decoration(TextDecoration.ITALIC, false)
+                    Component.text("네더월드: ${nether}칸").decoration(TextDecoration.ITALIC, false)
                         .color(TextColor.color(0xAC2020)),
-                    Component.text("엔더월드: 16칸")
-                        .decoration(TextDecoration.ITALIC, false)
+                    Component.text("엔더월드: ${end}칸").decoration(TextDecoration.ITALIC, false)
                         .color(TextColor.color(0xA9A3A3)),
                 )
             )
@@ -55,8 +62,7 @@ object ExpandBorderItem : Listener {
             }
             worldBorder.size = newSize
             player.sendMessage(
-                Component.text("월드 경계를 확장했습니다.")
-                    .color(TextColor.color(0x00FF00))
+                Component.text("월드 경계를 확장했습니다.").color(TextColor.color(0x00FF00))
             )
             item.amount -= 1
         }
@@ -65,8 +71,7 @@ object ExpandBorderItem : Listener {
     @EventHandler
     fun preventPlace(event: PlayerInteractEvent) {
         val item = event.item
-        if (item == itemStack)
-            event.isCancelled = true
+        if (item == itemStack) event.isCancelled = true
     }
 
 }
