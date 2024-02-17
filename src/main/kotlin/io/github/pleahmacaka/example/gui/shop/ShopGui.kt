@@ -1,6 +1,7 @@
 package io.github.pleahmacaka.example.gui.shop
 
 import io.github.pleahmacaka.example.Example
+import io.github.pleahmacaka.example.gui.ReinforceGui
 import io.github.pleahmacaka.example.utils.Named
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -52,6 +53,18 @@ object ShopGui : Listener {
         // ...
     )
 
+    private val buttons: Array<ShopButton> = arrayOf(
+        ShopButton(Named.Comp(
+            Component.text("장비 강화").color(TextColor.color(0x00FF00))
+                .decoration(TextDecoration.ITALIC, false)
+        ), 4, Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, { event ->
+            val player = event.whoClicked
+
+            player.closeInventory()
+            player.openInventory(ReinforceGui.inv)
+        }),
+    )
+
     @EventHandler
     fun onInvClick(event: InventoryClickEvent) {
         if (Example.IS_DEV) Example.instance.logger.info("Prevent click")
@@ -63,6 +76,14 @@ object ShopGui : Listener {
 //    private var page = 1
 
     init {
+        // Add buttons
+//        for (button in buttons) {
+//            inv.setItem(button.loc ?: -1, ItemStack(button.material).apply {
+//                itemMeta = itemMeta.apply { displayName(button.showName) }
+//            })
+//        }
+
+        // Add items
         var passed = 0
 
         for (i in items.indices) {
@@ -85,6 +106,7 @@ object ShopGui : Listener {
             passed++
         }
 
+        // Fill empty slots
         for (i in 0 until SIZEOF) {
             val emptyItem = ItemStack(Material.GRAY_STAINED_GLASS_PANE).apply {
                 itemMeta = itemMeta.apply { displayName(Component.text(" ")) }

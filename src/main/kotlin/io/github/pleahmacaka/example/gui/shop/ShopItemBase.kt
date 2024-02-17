@@ -20,12 +20,12 @@ open class ShopItemBase(
     /**
      * constant index location for exchange slot
      */
-    var loc: Int? = null
+    open var loc: Int? = null
 ) : Listener {
-    private var displayName: Component? = null
+    var showName: Component? = null
 
     init {
-        displayName = when (name) {
+        showName = when (name) {
             is Named.Text -> Component.text((name as Named.Text).text)
             is Named.Comp -> (name as Named.Comp).component
             else -> Component.text(material.name)
