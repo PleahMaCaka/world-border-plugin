@@ -1,5 +1,6 @@
 package io.github.pleahmacaka.example
 
+import io.github.pleahmacaka.example.events.ReplaceEnchantTable
 import io.github.pleahmacaka.example.gui.shop.ShopGui
 import io.github.pleahmacaka.example.items.ExpandBorderItem
 import io.github.pleahmacaka.example.kommands.cleanKommand
@@ -42,6 +43,7 @@ class Example : JavaPlugin() {
         listOf(
             ShopGui,
             ExpandBorderItem,
+            ReplaceEnchantTable
         ).forEach {
             server.pluginManager.registerEvents(it, this)
         }
