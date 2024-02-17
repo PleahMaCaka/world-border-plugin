@@ -7,9 +7,10 @@ import net.kyori.adventure.text.format.TextColor
 import org.bukkit.plugin.java.JavaPlugin
 
 val randSent: List<String> = listOf(
-    "돈좀 있으신가봐요?",
-    "돈 없으면 나가세요.",
-    "돈이 없으면 상점에 들어올 수 없습니다. (아님)"
+    "거지는 들어올 수 없습니다.",
+    "사지도 않을 물건을 건들지 마십시오.",
+    "네더라이트가 없으면 상점에 들어올 수 없습니다. (아님)",
+    "짜잔"
 )
 
 fun shopKommand(plugin: JavaPlugin) {
