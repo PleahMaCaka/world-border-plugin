@@ -82,6 +82,14 @@ object ExpandBorderItem : Listener {
 
         if (random < 0) return player.sendMessage("청크 확장권의 보상이 설정되어 있지 않습니다. 관리자에게 문의하세요.")
 
+        // if inventory is full, drop the item
+        // generally expander will replace that index,
+        // but before item is can be gotten in inventory until the item is removed
+        if (player.inventory.firstEmpty() == -1) {
+            player.world.dropItem(player.location, RewardGui.inv.contents[random]!!)
+            return player.sendMessage("§c인벤토리가 가득 찼습니다. 보상이 바닥에 떨어졌습니다.")
+        }
+
         player.sendMessage(random.toString())
         player.inventory.addItem(RewardGui.inv.contents[random]!!)
     }

@@ -21,7 +21,6 @@ class ShopItem(
     lore: Array<Component>? = null,
     loc: Int? = null,
 
-
     /**
      * Allowed tags for exchange, null for only material
      */
@@ -36,6 +35,8 @@ class ShopItem(
 
     @EventHandler
     private fun exchange(event: InventoryClickEvent) {
+        val player = event.whoClicked
+
         if (event.clickedInventory != ShopGui.inv) return
         if (!event.isLeftClick) return
         if (event.currentItem?.type != material) return
@@ -47,8 +48,7 @@ class ShopItem(
 
         Example.instance.logger.info("StackSum: $stackSum, Needs: $needs")
 
-        if (stackSum < needs)
-            return event.whoClicked.sendMessage("§c[$stackSum/$needs] 아이템이 충분하지 않습니다!")
+        if (stackSum < needs) return event.whoClicked.sendMessage("§c[$stackSum/$needs] 아이템이 충분하지 않습니다!")
 
         var removed = 0
         for (item in items) {
@@ -64,12 +64,14 @@ class ShopItem(
             }
         }
 
-        // if inventory is full, drop the item
-        if (removed < needs)
-            event.whoClicked.world.dropItem(event.whoClicked.location, ExpandBorderItem.itemStack)
-
-        val player = event.whoClicked
-        player.inventory.addItem(ExpandBorderItem.itemStack)
         player.sendMessage("§a경계 확장기를 구매하였습니다!")
+
+        // if inventory is full, drop the item
+        if (removed >= needs) {
+            player.world.dropItem(event.whoClicked.location, ExpandBorderItem.itemStack)
+            return player.sendMessage("§c인벤토리가 가득 찼습니다! 경계 확장기가 바닥에 떨어졌습니다!")
+        }
+
+        player.inventory.addItem(ExpandBorderItem.itemStack)
     }
 }
