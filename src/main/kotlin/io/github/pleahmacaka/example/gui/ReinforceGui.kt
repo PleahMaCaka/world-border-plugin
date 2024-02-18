@@ -8,8 +8,10 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.HumanEntity
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -17,6 +19,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.util.*
+import kotlin.math.min
 
 object ReinforceGui : Listener {
 
@@ -49,9 +52,9 @@ object ReinforceGui : Listener {
 
     private const val SIZEOF = 3 * 9
 
-    const val successPer = 90 // will be decreased by 10% every time
-    const val failPer = 9     // will be increased by 10% every time
-    const val destroyPer = 1  // will be increased by 2% every time
+    private const val successPer = 90 // will be decreased by 10% every time
+    private const val failPer = 10     // will be increased by 10% every time
+    private const val destroyPer = 1  // will be increased by 2% every time
 
     val inv: Inventory = Bukkit.createInventory(null, SIZEOF, Component.text("강화"))
 
@@ -81,10 +84,10 @@ object ReinforceGui : Listener {
     }
 
     @EventHandler
-    fun onInvClick(event: InventoryClickEvent) {
+    fun openReinforce(event: InventoryClickEvent) {
         validCheckInv(event.inventory) ?: return
 
-        val player = event.whoClicked
+        val player = event.whoClicked as Player
 
         when (event.currentItem) {
             emptyItem -> event.isCancelled = true
@@ -102,15 +105,17 @@ object ReinforceGui : Listener {
         return applicable
     }
 
-    private fun reinforce(event: InventoryClickEvent, player: HumanEntity) {
+    private fun reinforce(event: InventoryClickEvent, player: Player) {
         if (inv.getItem(12) == null || inv.getItem(14) == null) {
             player.sendMessage("강화할 장비 또는 강화 재료를 넣어주세요.")
+            player.playSound(player.location, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 3f, 1f)
             event.isCancelled = true
             return
         }
 
         if (!inv.getItem(12)?.isSimilar(UpgradeMaterial.itemStack)!!) {
             player.sendMessage("강화 재료 칸에 다른 아이템이 있습니다.")
+            player.playSound(player.location, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 3f, 1f)
             event.isCancelled = true
             return
         }
@@ -149,35 +154,70 @@ object ReinforceGui : Listener {
             )
         )
 
+        player.playSound(player.location, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 3f, 1f)
+
         val rnd = Random()
         val randPercent = rnd.nextInt(100) + 1  // generates a random percentage between 1-100
 
         val successPerNow = successPer - filledStar * 10
-        val failPerNow = failPer + filledStar * 10
-        val destroyPerNow = destroyPer + filledStar * 2
+        val failPerNow = (failPer + filledStar * 5) / 4
+        val destroyPerNow = (destroyPer + filledStar * 2) / 4
 
         if (randPercent <= successPerNow) {
-            // reinforce code...
-            val randLevel = rnd.nextInt(GameManager.enchantMultiplier) + 1
+            val randLevel = filledStar / 2 + rnd.nextInt(GameManager.enchantMultiplier - (filledStar / 2) + 1)
             val availableEnchants = originItem.type.getEnchantments()
 
             if (availableEnchants.isNotEmpty()) {
-                val rndEnchantment = availableEnchants[rnd.nextInt(availableEnchants.size)]
+                val maxTries = 100 // set this to a reasonable number based on your needs
+                var validEnchantFound = false
+                var tryCount = 0
+                var rndEnchantment: Enchantment? = null
 
-                if (originItem.containsEnchantment(rndEnchantment)) {
-                    val currentEnchantmentLevel = originItem.getEnchantmentLevel(rndEnchantment)
-                    originItem.addUnsafeEnchantment(rndEnchantment, currentEnchantmentLevel + randLevel)
-                } else {
-                    originItem.addUnsafeEnchantment(rndEnchantment, randLevel)
+                while (!validEnchantFound) {
+                    // Increase the tryCount and check if it exceeds maxTries
+                    tryCount++
+                    if (tryCount > maxTries) {
+                        break
+                    }
+
+                    // Try loop until we find a valid enchantment
+                    rndEnchantment = availableEnchants[rnd.nextInt(availableEnchants.size)]
+                    if (!canEnchantItem(originItem, rndEnchantment)) continue
+                    validEnchantFound = true
                 }
+
+                // Add the enchantment to the item
+                if (validEnchantFound && rndEnchantment != null) {
+                    // We calculate the level to upgrade based on randLevel
+                    val currentEnchantmentLevel = if (originItem.containsEnchantment(rndEnchantment)) {
+                        min(originItem.getEnchantmentLevel(rndEnchantment) + randLevel, rndEnchantment.maxLevel)
+                    } else {
+                        randLevel
+                    }
+                    originItem.addUnsafeEnchantment(rndEnchantment, currentEnchantmentLevel)
+                }
+            } else {
+                player.sendMessage("강화할 수 없는 아이템입니다. 특별히 별은 달아드릴게요.")
+                player.playSound(player.location, Sound.BLOCK_ANVIL_DESTROY, 3f, 3f)
+                player.inventory.addItem(UpgradeMaterial.itemStack)
+                return player.closeInventory()
             }
+
         } else if (randPercent <= successPerNow + failPerNow) {
             player.sendMessage("강화 실패!")
+            player.playSound(player.location, Sound.BLOCK_SMITHING_TABLE_USE, 3f, 10f)
         } else if (randPercent <= successPerNow + failPerNow + destroyPerNow) {
             player.sendMessage("아이템이 파괴되었습니다!")
+            player.playSound(player.location, Sound.BLOCK_ANVIL_DESTROY, 3f, 3f)
             inv.remove(originItem)
         }
     }
+
+    private fun canEnchantItem(item: ItemStack, ench: Enchantment): Boolean {
+        return item.type.getEnchantments().contains(ench) &&
+                (item.getEnchantmentLevel(ench) + 1 <= ench.maxLevel)
+    }
+
 
     // Simplifies updating an inventory slot and cares for zero amounts
     private fun ItemStack.updateInventorySlot(slot: Int) {

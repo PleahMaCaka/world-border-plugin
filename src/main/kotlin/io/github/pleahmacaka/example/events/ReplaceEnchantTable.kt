@@ -2,6 +2,7 @@ package io.github.pleahmacaka.example.events
 
 import io.github.pleahmacaka.example.gui.ReinforceGui
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
@@ -15,7 +16,10 @@ object ReplaceEnchantTable : Listener {
             && event.action.isRightClick
         ) {
             event.isCancelled = true
-            event.player.openInventory(ReinforceGui.inv)
+            val player = event.player
+
+            player.playSound(player.location, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1f, 5f)
+            player.openInventory(ReinforceGui.inv)
         }
     }
 
