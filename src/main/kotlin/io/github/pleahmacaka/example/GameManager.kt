@@ -78,23 +78,23 @@ object GameManager {
      * Bossbar
      */
 
-    var bar = BossBar.bossBar(
+    var bossbar = BossBar.bossBar(
         Component.text("대기중"), 1.0f, BossBar.Color.BLUE, Overlay.PROGRESS
     )
 
     fun setBossbar(name: String) {
-        bar.name(Component.text(name))
+        bossbar.name(Component.text(name))
     }
 
     fun showBossbarAll() {
         (Bukkit.getOnlinePlayers() as MutableList<*>).forEach { player ->
-            bar.addViewer(player as Audience)
+            bossbar.addViewer(player as Audience)
         }
     }
 
     fun hideBossbarAll() {
         (Bukkit.getOnlinePlayers() as MutableList<*>).forEach { player ->
-            bar.removeViewer(player as Audience)
+            bossbar.removeViewer(player as Audience)
         }
     }
 

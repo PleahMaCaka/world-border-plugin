@@ -10,12 +10,12 @@ object ShowBossBar : Listener {
 
     @EventHandler
     fun showBossBar(event: PlayerJoinEvent) {
-        GameManager.bar.addViewer(event.player)
+        GameManager.bossbar.addViewer(event.player)
     }
 
     @EventHandler
     fun hideBossBar(event: PlayerQuitEvent) {
-        GameManager.bar.removeViewer(event.player)
+        GameManager.bossbar.removeViewer(event.player)
     }
 
 }

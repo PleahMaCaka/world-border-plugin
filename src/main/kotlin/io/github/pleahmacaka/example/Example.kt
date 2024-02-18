@@ -26,7 +26,7 @@ class Example : JavaPlugin() {
         instance = this
         logger.info("WBS Plugin Enabled!")
 
-        GameManager.bar.name(Component.text("월드보더 서바이벌 V0 작동중"))
+        GameManager.bossbar.name(Component.text("월드보더 서바이벌 V0 작동중"))
 
         RewardGui.loadReward()
         GameManager.loadConfig()

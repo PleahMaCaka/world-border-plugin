@@ -2,6 +2,7 @@ package io.github.pleahmacaka.example.kommands
 
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
+import io.github.pleahmacaka.example.Example
 import io.github.pleahmacaka.example.GameManager
 import io.github.pleahmacaka.example.gui.RewardGui
 import io.github.pleahmacaka.example.items.ExpandBorderItem
@@ -42,7 +43,7 @@ fun gameKommand(plugin: JavaPlugin) {
 
                         // ... do something take a long time ... //
 
-                        GameManager.setBossbar("현재 월드보더 크기 : ${GameManager.overBorderSize}")
+                        GameManager.setBossbar("현재 월드보더 크기 : ${player.world.worldBorder.size.toInt()}")
 
                         val hPos = Vector3i(
                             highestBlock.x.toInt(), highestBlock.y.toInt(), highestBlock.z.toInt()
