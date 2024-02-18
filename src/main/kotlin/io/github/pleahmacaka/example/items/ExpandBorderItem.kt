@@ -61,6 +61,7 @@ object ExpandBorderItem : Listener {
         val worldType = world.environment
         val worldBorder = world.worldBorder
         val size = worldBorder.size
+
         worldBorder.size = when (worldType) {
             World.Environment.NORMAL -> size + over
             World.Environment.NETHER -> size + nether
@@ -78,6 +79,8 @@ object ExpandBorderItem : Listener {
         // Remove expander
         GameManager.expandingCount += 1
         item.amount -= 1
+
+        GameManager.setBossbar("현재 월드보더 크기 : ${world.worldBorder.size.toInt()}")
 
         // Give the one random reward
         val random = (0..RewardGui.getRewardSize()).random() - 1

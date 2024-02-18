@@ -1,9 +1,6 @@
 package io.github.pleahmacaka.example
 
-import io.github.pleahmacaka.example.events.AutoSaveRewards
-import io.github.pleahmacaka.example.events.CheckJoinedWorld
-import io.github.pleahmacaka.example.events.ReplaceEnchantTable
-import io.github.pleahmacaka.example.events.ShowBossBar
+import io.github.pleahmacaka.example.events.*
 import io.github.pleahmacaka.example.gui.RewardGui
 import io.github.pleahmacaka.example.gui.shop.ShopGui
 import io.github.pleahmacaka.example.items.ExpandBorderItem
@@ -26,7 +23,12 @@ class Example : JavaPlugin() {
         instance = this
         logger.info("WBS Plugin Enabled!")
 
-        GameManager.bossbar.name(Component.text("월드보더 서바이벌 V0 작동중"))
+        if (!GameManager.started)
+            GameManager.bossbar.name(Component.text("월드보더 서바이벌 V0 작동중"))
+        else {
+            GameManager.setBossbar("현재 월드보더 크기 : ${instance.server.getWorld("world")?.worldBorder?.size?.toInt()}")
+            GameManager.showBossbarAll()
+        }
 
         RewardGui.loadReward()
         GameManager.loadConfig()
@@ -56,7 +58,8 @@ class Example : JavaPlugin() {
             ReplaceEnchantTable,
             AutoSaveRewards,
             ShowBossBar,
-            CheckJoinedWorld
+            CheckJoinedWorld,
+            RespawnToShowBossBar
         ).forEach {
             server.pluginManager.registerEvents(it, this)
         }
