@@ -26,7 +26,10 @@ object ExpandBorderItem : Listener {
 
     val itemStack = ItemStack(Material.GOAT_HORN).apply {
         itemMeta = itemMeta.apply {
-            displayName(Component.text("월드 경계 확장기"))
+            displayName(
+                Component.text("월드 경계 확장기")
+                    .decoration(TextDecoration.ITALIC, false)
+            )
             lore(
                 mutableListOf(
                     Component.text("월드 경계를 확장합니다.").decoration(TextDecoration.ITALIC, false)
