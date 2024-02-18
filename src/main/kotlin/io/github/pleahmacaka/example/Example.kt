@@ -61,7 +61,8 @@ class Example : JavaPlugin() {
             ShowBossBar,
             CheckJoinedWorld,
             RespawnToShowBossBar,
-            ReinforceGui
+            ReinforceGui,
+            DropUpgradeMaterial
         ).forEach {
             server.pluginManager.registerEvents(it, this)
         }

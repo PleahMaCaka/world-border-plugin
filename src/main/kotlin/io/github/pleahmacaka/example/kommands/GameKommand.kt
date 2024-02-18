@@ -118,6 +118,15 @@ fun gameKommand(plugin: JavaPlugin) {
                     }
                     executes { player.sendMessage("/game config enchantMultiplier <number>") }
                 }
+                then("dropMultiplier") {
+                    then("multiplier" to int()) {
+                        executes {
+                            val multiplier: Int by it
+                            GameManager.dropMultiplier = multiplier
+                            player.sendMessage("강화 재료 드랍 확률이 ${multiplier}% 로 설정되었습니다.")
+                        }
+                    }
+                }
                 then("initBorderSize") {
                     then("size" to int()) {
                         executes {
