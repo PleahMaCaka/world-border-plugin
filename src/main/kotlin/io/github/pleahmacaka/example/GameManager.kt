@@ -23,10 +23,15 @@ object GameManager {
 
         val defaultConfigPairs = mapOf(
             "started" to false,
-            "borderSize" to 8,
-            "expandingCount" to 0,
             "startedAt" to listOf(0, 0, 0),
-            "expanderMultiplier" to 1
+            "initBorderSize" to 8,
+            "overBorderSize" to 8,
+            "netherBorderSize" to 8,
+            "endBorderSize" to 8,
+            "expandingCount" to 0,
+            "expanderMultiplier" to 1,
+            "netherJoined" to false,
+            "endJoined" to false
         )
 
         defaultConfigPairs.forEach { (key, value) ->
@@ -52,9 +57,21 @@ object GameManager {
         get() = config.getIntegerList("startedAt")
         set(value) = setConfig("startedAt", value)
 
-    var borderSize: Int
+    var initBorderSize: Int
+        get() = config.getInt("initBorderSize")
+        set(value) = setConfig("initBorderSize", value)
+
+    var overBorderSize: Int
         get() = config.getInt("borderSize")
         set(value) = setConfig("borderSize", value)
+
+    var netherBorderSize: Int
+        get() = config.getInt("netherBorderSize")
+        set(value) = setConfig("netherBorderSize", value)
+
+    var endBorderSize: Int
+        get() = config.getInt("endBorderSize")
+        set(value) = setConfig("endBorderSize", value)
 
     var expandingCount: Int
         get() = config.getInt("expandingCount")
@@ -63,6 +80,14 @@ object GameManager {
     var expanderMultiplier: Int
         get() = config.getInt("expanderMultiplier")
         set(value) = setConfig("expanderMultiplier", value)
+
+    var netherJoined: Boolean
+        get() = config.getBoolean("netherJoined")
+        set(value) = setConfig("netherJoined", value)
+
+    var endJoined: Boolean
+        get() = config.getBoolean("endJoined")
+        set(value) = setConfig("endJoined", value)
 
     /**
      * Bossbar

@@ -67,7 +67,7 @@ object ExpandBorderItem : Listener {
                 size
             }
         }
-        GameManager.borderSize = worldBorder.size.toInt()
+        GameManager.overBorderSize = worldBorder.size.toInt()
 
         player.sendMessage(
             Component.text("월드 경계를 확장했습니다.").color(TextColor.color(0x00FF00))

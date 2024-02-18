@@ -1,6 +1,7 @@
 package io.github.pleahmacaka.example
 
 import io.github.pleahmacaka.example.events.AutoSaveRewards
+import io.github.pleahmacaka.example.events.CheckJoinedWorld
 import io.github.pleahmacaka.example.events.ReplaceEnchantTable
 import io.github.pleahmacaka.example.events.ShowBossBar
 import io.github.pleahmacaka.example.gui.RewardGui
@@ -54,7 +55,8 @@ class Example : JavaPlugin() {
             ExpandBorderItem,
             ReplaceEnchantTable,
             AutoSaveRewards,
-            ShowBossBar
+            ShowBossBar,
+            CheckJoinedWorld
         ).forEach {
             server.pluginManager.registerEvents(it, this)
         }

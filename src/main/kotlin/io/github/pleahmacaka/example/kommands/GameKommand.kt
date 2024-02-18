@@ -35,14 +35,14 @@ fun gameKommand(plugin: JavaPlugin) {
 
                         // initialize a world border
                         world.worldBorder.center = world.spawnLocation
-                        world.worldBorder.size = GameManager.borderSize.toDouble()
+                        world.worldBorder.size = GameManager.initBorderSize.toDouble()
 
                         Bukkit.dispatchCommand(player, "place structure minecraft:stronghold ~100 12 ~100") // uwu
                         player.sendMessage("StrongHold 생성됨.")
 
                         // ... do something take a long time ... //
 
-                        GameManager.setBossbar("현재 월드보더 크기 : ${GameManager.borderSize}")
+                        GameManager.setBossbar("현재 월드보더 크기 : ${GameManager.overBorderSize}")
 
                         val hPos = Vector3i(
                             highestBlock.x.toInt(), highestBlock.y.toInt(), highestBlock.z.toInt()
