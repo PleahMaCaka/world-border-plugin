@@ -25,17 +25,20 @@ class Example : JavaPlugin() {
         instance = this
         logger.info("WBS Plugin Enabled!")
 
-        GameStatus.bar.name(Component.text("월드보더 서바이벌 V0 작동중"))
+        GameManager.bar.name(Component.text("월드보더 서바이벌 V0 작동중"))
 
         RewardGui.loadReward()
+        GameManager.loadConfig()
 
         registerKommands()
         registerListeners()
     }
 
     override fun onDisable() {
-        GameStatus.hideAll() // 한번 인스턴스를 잃어버리면 다시 핸들링 불가능함
+        GameManager.hideBossbarAll() // 한번 인스턴스를 잃어버리면 다시 핸들링 불가능함
+
         RewardGui.saveReward()
+        GameManager.saveConfig()
         logger.info("WBs Plugin Disabled!")
     }
 

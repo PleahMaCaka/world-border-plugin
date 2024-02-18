@@ -18,4 +18,5 @@ object ReplaceEnchantTable : Listener {
             event.player.openInventory(ReinforceGui.inv)
         }
     }
+
 }
