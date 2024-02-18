@@ -16,7 +16,7 @@ object DropUpgradeMaterial : Listener {
     fun dropUpgradeMaterial(event: EntityDeathEvent) {
         if (event.entity.killer !is HumanEntity) return
         // if not an animals
-        for (animal in setOf(
+        for (blackList in setOf(
             EntityType.COW,
             EntityType.PIG,
             EntityType.SHEEP,
@@ -35,7 +35,26 @@ object DropUpgradeMaterial : Listener {
             EntityType.BEE,
             EntityType.CAT,
             EntityType.PANDA,
-        )) if (event.entity.type == animal) return
+            EntityType.PLAYER,
+            EntityType.VILLAGER,
+            EntityType.IRON_GOLEM,
+            EntityType.SNOWMAN,
+            EntityType.WANDERING_TRADER,
+            EntityType.TRADER_LLAMA,
+            EntityType.DOLPHIN,
+            EntityType.SQUID,
+            EntityType.BAT,
+            EntityType.PUFFERFISH,
+            EntityType.SALMON,
+            EntityType.COD,
+            EntityType.TROPICAL_FISH,
+            EntityType.DROWNED,
+            EntityType.ITEM_FRAME,
+            EntityType.LEASH_HITCH,
+            EntityType.PAINTING,
+            EntityType.ARMOR_STAND,
+            EntityType.ENDER_CRYSTAL
+        )) if (event.entity.type == blackList) return
 
         if (Math.random() < GameManager.dropMultiplier / 100.0)
             event.drops.add(UpgradeMaterial.itemStack.clone().apply { amount = (Math.random() * 3).toInt() + 1 })
