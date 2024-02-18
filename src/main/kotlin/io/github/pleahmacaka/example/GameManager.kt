@@ -27,6 +27,7 @@ object GameManager {
             "initBorderSize" to 16,
             "expandingCount" to 0,
             "expanderMultiplier" to 1,
+            "enchantMultiplier" to 7,
             "netherJoined" to false,
             "endJoined" to false
         )
@@ -65,6 +66,10 @@ object GameManager {
     var expanderMultiplier: Int
         get() = config.getInt("expanderMultiplier")
         set(value) = setConfig("expanderMultiplier", value)
+
+    var enchantMultiplier: Int
+        get() = config.getInt("enchantMultiplier")
+        set(value) = setConfig("enchantMultiplier", value)
 
     var netherJoined: Boolean
         get() = config.getBoolean("netherJoined")

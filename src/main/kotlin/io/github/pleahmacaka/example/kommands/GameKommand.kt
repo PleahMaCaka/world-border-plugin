@@ -108,6 +108,26 @@ fun gameKommand(plugin: JavaPlugin) {
                     }
                     executes { player.sendMessage("/game config expanderMultiplier <number>") }
                 }
+                then("enchantMultiplier") {
+                    then("multiplier" to int()) {
+                        executes {
+                            val multiplier: Int by it
+                            GameManager.enchantMultiplier = multiplier
+                            player.sendMessage("강화 배수가 ${multiplier}(으)로 설정되었습니다.")
+                        }
+                    }
+                    executes { player.sendMessage("/game config enchantMultiplier <number>") }
+                }
+                then("initBorderSize") {
+                    then("size" to int()) {
+                        executes {
+                            val size: Int by it
+                            GameManager.initBorderSize = size
+                            player.sendMessage("초기 월드 경계 크기가 ${size}(으)로 설정되었습니다. 월드 재생성을 권장합니다.")
+                        }
+                    }
+                    executes { player.sendMessage("/game config initBorderSize <number>") }
+                }
                 then("load") {
                     executes {
                         GameManager.loadConfig()
