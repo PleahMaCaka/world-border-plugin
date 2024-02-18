@@ -90,7 +90,6 @@ object ExpandBorderItem : Listener {
             return player.sendMessage("§c인벤토리가 가득 찼습니다. 보상이 바닥에 떨어졌습니다.")
         }
 
-        player.sendMessage(random.toString())
         player.inventory.addItem(RewardGui.inv.contents[random]!!)
     }
 
