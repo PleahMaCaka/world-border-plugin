@@ -2,10 +2,10 @@ package io.github.pleahmacaka.example.kommands
 
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
-import io.github.pleahmacaka.example.Example
 import io.github.pleahmacaka.example.GameManager
 import io.github.pleahmacaka.example.gui.RewardGui
 import io.github.pleahmacaka.example.items.ExpandBorderItem
+import io.github.pleahmacaka.example.items.UpgradeMaterial
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
@@ -87,6 +87,12 @@ fun gameKommand(plugin: JavaPlugin) {
                     executes {
                         player.inventory.addItem(ExpandBorderItem.itemStack)
                         player.sendMessage("월드 경계 확장기를 지급합니다.")
+                    }
+                }
+                then("upgradeMaterial") {
+                    executes {
+                        player.inventory.addItem(UpgradeMaterial.itemStack)
+                        player.sendMessage("강화 재료를 지급합니다.")
                     }
                 }
                 executes { player.sendMessage("/game give <expander>") }
