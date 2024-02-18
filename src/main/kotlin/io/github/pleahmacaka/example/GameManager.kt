@@ -28,6 +28,7 @@ object GameManager {
             "expandingCount" to 0,
             "expanderMultiplier" to 1,
             "enchantMultiplier" to 7,
+            "damageMultiplier" to 10,
             "dropMultiplier" to 7,
             "netherJoined" to false,
             "endJoined" to false
@@ -75,6 +76,10 @@ object GameManager {
     var dropMultiplier: Int
         get() = config.getInt("dropMultiplier")
         set(value) = setConfig("dropMultiplier", value)
+
+    var damageMultiplier: Int
+        get() = config.getInt("damageMultiplier")
+        set(value) = setConfig("damageMultiplier", value)
 
     var netherJoined: Boolean
         get() = config.getBoolean("netherJoined")

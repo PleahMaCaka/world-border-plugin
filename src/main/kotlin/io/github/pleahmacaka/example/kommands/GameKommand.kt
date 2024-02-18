@@ -127,6 +127,16 @@ fun gameKommand(plugin: JavaPlugin) {
                         }
                     }
                 }
+                then("damageMultiplier") {
+                    then("multiplier" to int()) {
+                        executes {
+                            val multiplier: Int by it
+                            GameManager.damageMultiplier = multiplier
+                            player.sendMessage("데미지 배수가 ${multiplier}% 로 설정되었습니다.")
+                        }
+                    }
+                    executes { player.sendMessage("/game config damageMultiplier <number>") }
+                }
                 then("initBorderSize") {
                     then("size" to int()) {
                         executes {
