@@ -1,5 +1,6 @@
 package io.github.pleahmacaka.example.items
 
+import io.github.pleahmacaka.example.GameManager
 import io.github.pleahmacaka.example.gui.RewardGui
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
@@ -13,16 +14,15 @@ import org.bukkit.inventory.ItemStack
 
 object ExpandBorderItem : Listener {
 
-    var multiplier = 1
 
     private val over: Int
-        get() = 2 * multiplier
+        get() = 2 * GameManager.expanderMultiplier
 
     private val nether: Int
-        get() = 4 * multiplier
+        get() = 4 * GameManager.expanderMultiplier
 
     private val end: Int
-        get() = 6 * multiplier
+        get() = 6 * GameManager.expanderMultiplier
 
     val itemStack = ItemStack(Material.GOAT_HORN).apply {
         itemMeta = itemMeta.apply {
@@ -44,7 +44,7 @@ object ExpandBorderItem : Listener {
     }
 
     /**
-     * Not consider stacked items
+     * Not considered stack items
      */
     @EventHandler
     fun onUse(event: PlayerInteractEvent) {
@@ -59,20 +59,22 @@ object ExpandBorderItem : Listener {
         val worldBorder = world.worldBorder
         val size = worldBorder.size
         worldBorder.size = when (worldType) {
-            World.Environment.NORMAL -> size + 4
-            World.Environment.NETHER -> size + 8
-            World.Environment.THE_END -> size + 16
+            World.Environment.NORMAL -> size + over
+            World.Environment.NETHER -> size + nether
+            World.Environment.THE_END -> size + end
             else -> {
                 player.sendMessage("이 월드는 확장할 수 없습니다. 관리자에게 문의하세요.")
                 size
             }
         }
+        GameManager.borderSize = worldBorder.size.toInt()
 
         player.sendMessage(
             Component.text("월드 경계를 확장했습니다.").color(TextColor.color(0x00FF00))
         )
 
         // Remove expander
+        GameManager.expandingCount += 1
         item.amount -= 1
 
         // Give the one random reward

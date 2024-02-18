@@ -8,7 +8,9 @@ import io.github.pleahmacaka.example.items.ExpandBorderItem
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.plugin.java.JavaPlugin
+import org.joml.Vector3i
 
 var isReady: Boolean = false
 
@@ -26,24 +28,31 @@ fun gameKommand(plugin: JavaPlugin) {
                         GameManager.started = true
 
                         val world = player.world
+                        val highestBlock: Location = world.getHighestBlockAt(player.location).location
 
                         // set default world spawn location
-                        world.spawnLocation = world.getHighestBlockAt(player.location).location
+                        world.spawnLocation = highestBlock
 
                         // initialize a world border
                         world.worldBorder.center = world.spawnLocation
                         world.worldBorder.size = GameManager.borderSize.toDouble()
 
-                        player.sendMessage("StrongHold 생성됨.")
                         Bukkit.dispatchCommand(player, "place structure minecraft:stronghold ~100 12 ~100") // uwu
+                        player.sendMessage("StrongHold 생성됨.")
 
                         // ... do something take a long time ... //
 
                         GameManager.setBossbar("현재 월드보더 크기 : ${GameManager.borderSize}")
 
-                        val ploc = player.location
+                        val hPos = Vector3i(
+                            highestBlock.x.toInt(), highestBlock.y.toInt(), highestBlock.z.toInt()
+                        )
+
+                        GameManager.started = true
+                        GameManager.startedAt = listOf(hPos.x, hPos.y, hPos.z)
+
                         player.sendMessage(
-                            Component.text("현재 지점 [${ploc.x.toInt()}, ${ploc.y.toInt()}, ${ploc.z.toInt()}] 을 기준으로 게임을 시작합니다.")
+                            Component.text("현재 지점 [${hPos.x}, ${hPos.y}, ${hPos.z}] 을 기준으로 게임을 시작합니다.")
                                 .color(TextColor.color(0x00FF00))
                         )
                     }
@@ -82,6 +91,22 @@ fun gameKommand(plugin: JavaPlugin) {
                 executes { player.sendMessage("/game give <expander>") }
             }
             then("config") {
+                then("expanderMultiplier") {
+                    then("multiplier" to int()) {
+                        executes {
+                            val multiplier: Int by it
+                            GameManager.expanderMultiplier = multiplier
+                            player.sendMessage("월드 경계 확장기의 배수가 ${multiplier}(으)로 설정되었습니다.")
+                        }
+                    }
+                    executes { player.sendMessage("/game config expanderMultiplier <number>") }
+                }
+                then("load") {
+                    executes {
+                        GameManager.loadConfig()
+                        player.sendMessage("게임 설정을 불러왔습니다.")
+                    }
+                }
                 then("reward") {
                     then("load") {
                         executes {

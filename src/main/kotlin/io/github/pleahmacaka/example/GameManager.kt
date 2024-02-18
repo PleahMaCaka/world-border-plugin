@@ -14,17 +14,29 @@ object GameManager {
      * FS Handler
      */
 
-    val configFile = File("./config/gamestatus.yaml")
+    private val configFile = File("./config/gamestatus.yaml")
 
     val config = YamlConfiguration.loadConfiguration(configFile)
 
     init {
         if (!configFile.exists()) configFile.createNewFile()
 
-        if (!config.contains("started")) {
-            config.set("started", false)
-            config.save(configFile)
+        val defaultConfigPairs = mapOf(
+            "started" to false,
+            "borderSize" to 8,
+            "expandingCount" to 0,
+            "startedAt" to listOf(0, 0, 0),
+            "expanderMultiplier" to 1
+        )
+
+        defaultConfigPairs.forEach { (key, value) ->
+            if (!config.contains(key)) {
+                config.set(key, value)
+                config.save(configFile)
+            }
         }
+
+        reloadConfig(true)
     }
 
 
@@ -32,9 +44,25 @@ object GameManager {
      * Configurations
      */
 
-    var started = config.getBoolean("started")
-    var borderSize = 8
+    var started: Boolean
+        get() = config.getBoolean("started")
+        set(value) = setConfig("started", value)
 
+    var startedAt: List<Int>
+        get() = config.getIntegerList("startedAt")
+        set(value) = setConfig("startedAt", value)
+
+    var borderSize: Int
+        get() = config.getInt("borderSize")
+        set(value) = setConfig("borderSize", value)
+
+    var expandingCount: Int
+        get() = config.getInt("expandingCount")
+        set(value) = setConfig("expandingCount", value)
+
+    var expanderMultiplier: Int
+        get() = config.getInt("expanderMultiplier")
+        set(value) = setConfig("expanderMultiplier", value)
 
     /**
      * Bossbar
@@ -65,21 +93,26 @@ object GameManager {
      * Read/Writes Configurations
      */
 
-    fun getConfig(k: String): String? {
-        return config.getString(k)
-    }
-
-    fun setConfig(k: String, v: Any) {
+    private fun setConfig(k: String, v: Any) {
         config.set(k, v)
+        saveConfig(true)
+    }
+
+    fun saveConfig(nolog: Boolean = false) {
+        if (!nolog) Example.instance.logger.info("Configurations saved.")
         config.save(configFile)
     }
 
-    fun saveConfig() {
-        config.save(configFile)
-    }
-
-    fun loadConfig() {
+    fun loadConfig(nolog: Boolean = false) {
+        if (!nolog) Example.instance.logger.info("Configurations loaded.")
         config.load(configFile)
+    }
+
+    fun reloadConfig(saveFirst: Boolean = false) {
+        if (saveFirst) saveConfig(true)
+        loadConfig(true)
+        saveConfig(true)
+        Example.instance.logger.info("Configurations reloaded.")
     }
 
 }
