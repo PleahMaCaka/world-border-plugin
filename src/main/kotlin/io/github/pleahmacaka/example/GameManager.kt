@@ -29,7 +29,7 @@ object GameManager {
             "expanderMultiplier" to 1,
             "enchantMultiplier" to 7,
             "damageMultiplier" to 10,
-            "dropMultiplier" to 7,
+            "dropMultiplier" to 15,
             "netherJoined" to false,
             "endJoined" to false
         )
