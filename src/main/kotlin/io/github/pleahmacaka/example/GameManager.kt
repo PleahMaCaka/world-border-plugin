@@ -24,10 +24,7 @@ object GameManager {
         val defaultConfigPairs = mapOf(
             "started" to false,
             "startedAt" to listOf(0, 0, 0),
-            "initBorderSize" to 8,
-            "overBorderSize" to 8,
-            "netherBorderSize" to 8,
-            "endBorderSize" to 8,
+            "initBorderSize" to 16,
             "expandingCount" to 0,
             "expanderMultiplier" to 1,
             "netherJoined" to false,
@@ -60,18 +57,6 @@ object GameManager {
     var initBorderSize: Int
         get() = config.getInt("initBorderSize")
         set(value) = setConfig("initBorderSize", value)
-
-    var overBorderSize: Int
-        get() = config.getInt("borderSize")
-        set(value) = setConfig("borderSize", value)
-
-    var netherBorderSize: Int
-        get() = config.getInt("netherBorderSize")
-        set(value) = setConfig("netherBorderSize", value)
-
-    var endBorderSize: Int
-        get() = config.getInt("endBorderSize")
-        set(value) = setConfig("endBorderSize", value)
 
     var expandingCount: Int
         get() = config.getInt("expandingCount")
