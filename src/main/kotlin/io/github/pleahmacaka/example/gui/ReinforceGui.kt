@@ -213,9 +213,9 @@ object ReinforceGui : Listener {
         }
     }
 
-    private fun canEnchantItem(item: ItemStack, ench: Enchantment): Boolean {
-        return item.type.getEnchantments().contains(ench) &&
-                (item.getEnchantmentLevel(ench) + 1 <= ench.maxLevel)
+    private fun canEnchantItem(item: ItemStack, enchant: Enchantment): Boolean {
+        return item.type.getEnchantments().contains(enchant) &&
+                (item.getEnchantmentLevel(enchant) + 1 <= enchant.maxLevel)
     }
 
 

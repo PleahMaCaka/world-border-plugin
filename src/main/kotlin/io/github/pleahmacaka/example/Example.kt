@@ -7,6 +7,7 @@ import io.github.pleahmacaka.example.gui.shop.ShopGui
 import io.github.pleahmacaka.example.items.ExpandBorderItem
 import io.github.pleahmacaka.example.kommands.cleanKommand
 import io.github.pleahmacaka.example.kommands.gameKommand
+import io.github.pleahmacaka.example.kommands.reinforceKommand
 import io.github.pleahmacaka.example.kommands.shopKommand
 import net.kyori.adventure.text.Component
 import org.bukkit.plugin.java.JavaPlugin
@@ -43,20 +44,21 @@ class Example : JavaPlugin() {
 
         RewardGui.saveReward()
         GameManager.saveConfig()
-        logger.info("WBs Plugin Disabled!")
+        logger.info("WBS Plugin Disabled!")
     }
 
     private fun registerKommands() {
         shopKommand(this)
         gameKommand(this)
         cleanKommand(this)
+        reinforceKommand(this)
     }
 
     private fun registerListeners() {
         listOf(
             ShopGui,
             ExpandBorderItem,
-            ReplaceEnchantTable,
+//            ReplaceEnchantTable,
             AutoSaveRewards,
             ShowBossBar,
             CheckJoinedWorld,
